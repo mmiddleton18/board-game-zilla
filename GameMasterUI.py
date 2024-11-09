@@ -21,6 +21,11 @@ def run_gamemaster_ui():
     if st.button("Calculate Winner"):
         calculate_winner(conn)
 
+    display_games = st.toggle("Pick Games Present")
+    if display_games:
+        pick_games_to_play(conn)
+
+
 def update_games_played(conn: GSheetsConnection, num_players: int):
     df_played = conn.read(worksheet="Games_Played")
     if not game_already_played(df_played):
@@ -63,6 +68,18 @@ def enough_votes(df_votes: pd.DataFrame, num_players, num_votes):
     if np.sum(df_votes.values[-1,:]) != int(num_players*num_votes):
         st.error(f"The number of votes ({np.sum(df_votes.values[-1,:])}) does not equal the correct number of players ({num_players})")
         st.stop()
+
+def pick_games_to_play(conn: GSheetsConnection):
+    df_games = conn.read(worksheet="Games")
+    game_pick = []
+    for i in range(0,len(df_games.values)):
+        game_pick.append(st.toggle(str(df_games.values[i,0])))
+    if st.button("Submit Games"):
+        df_new = pd.DataFrame(df_games.values,columns=df_games.columns)
+        df_new.values[:,3] = np.array(game_pick).astype(int)
+        df_games = conn.update(worksheet="Games", data=df_new)    
+
+
 
 if __name__ == '__main__':
     logging.basicConfig(

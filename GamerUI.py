@@ -15,17 +15,15 @@ def run_gamer_ui():
         if game_already_played(df_played):
             st.error("Game Session not ready. Have the Game Master set up a new Game Session")
             st.stop()
-        num_players = int(df_played.values[-1,0])
         num_votes = int(df_played.values[-1,1])
-        return df_games.values, [], num_players, num_votes
+        return df_games.values, [], num_votes
 
-    games, game_votes, number_of_players, number_of_votes = load_games_from_sheet()
+    games, game_votes, number_of_votes = load_games_from_sheet()
 
 
     for i in range(0,len(games)):
-        min_players = games[i,1]
-        max_players = games[i,2]
-        if number_of_players >= min_players and number_of_players <= max_players:
+        is_present = bool(games[i,3])
+        if is_present:
             game_votes.append(st.number_input(str(games[i,0]), min_value=0, step=1, format="%d"))
         else:
             game_votes.append(0)
