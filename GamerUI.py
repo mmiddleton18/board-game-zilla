@@ -1,7 +1,6 @@
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 import logging
-from Authenticator import first_load
 from UI_Functions import *
 
 def run_gamer_ui():

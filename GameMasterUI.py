@@ -4,7 +4,6 @@ import logging
 import numpy as np
 import pandas as pd
 from GameSelection import pick_game
-from Authenticator import first_load
 from UI_Functions import *
 
 #-------CONSTANTS---------

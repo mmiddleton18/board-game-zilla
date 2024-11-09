@@ -1,9 +1,10 @@
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 import logging
-from Authenticator import check_password, get_user, first_load
+from Authenticator import check_password, get_user
 from GamerUI import run_gamer_ui
 from GameMasterUI import run_gamemaster_ui
+from UI_Functions import *
 
 #----- CONFIGURE LOGGER ----------
 logging.basicConfig(

@@ -38,13 +38,6 @@ def check_password():
 def logout():
     st.session_state["password_correct"] = False
 
-def first_load():
-    if st.session_state.get("page_reloaded") is None:
-        # This will be true only on the first load
-        st.cache_data.clear()
-        st.cache_resource.clear()
-        st.session_state["page_reloaded"] = True  # Set a flag so it doesn’t clear cache again in this session
-
 @st.cache_data
 def get_user():
     return st.session_state.get("username","Gamer")
