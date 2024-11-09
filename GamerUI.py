@@ -30,15 +30,21 @@ def run_gamer_ui():
         else:
             game_votes.append(0)
 
+    if st.session_state.get("submit_btn_clicked") is None:
+        st.session_state["submit_btn_clicked"] = False
+
     if st.button("Submit Results"):
-        if sum(game_votes) != number_of_votes:
-            st.toast(f"Please submit {number_of_votes} votes",icon='❌')
+        if st.session_state["submit_btn_clicked"]:
+            st.toast("Your votes have already been submitted",icon='❌')
+        elif sum(game_votes) != number_of_votes:
+            st.toast(f"Please submit {int(number_of_votes)} votes",icon='❌')
         else:
             df_votes = conn.read(worksheet="Votes")
             logging.info(f"Current Votes: {df_votes.values[-1,:]}")
             df_votes.values[-1,:] += game_votes
             df_votes = conn.update(worksheet="Votes",data=df_votes)
             logging.info(f"New Votes: {df_votes.values[-1,:]}")
+            st.session_state["submit_btn_clicked"] = True
             st.balloons()
 
 
